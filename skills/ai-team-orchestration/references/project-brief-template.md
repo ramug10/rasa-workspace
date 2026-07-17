@@ -8,6 +8,7 @@ Copy this template to your project root and fill in every section. **Do not abbr
 # PROJECT_BRIEF.md — [Project Name]
 
 > Last updated: [date] | Sprint [N] | Status: [In Progress / Complete]
+> orchestrationVersion: [1.x]
 
 ## 1. Project Overview
 
@@ -109,7 +110,7 @@ Every sprint chat must do these before finishing:
 
 1. Write `docs/sprint-N/done.md` — what was built, what's not done, what needs manual setup, files changed/created
 2. Update PROJECT_BRIEF.md: Section 7 (mark sprint done) + Section 8 (rewrite current state)
-3. Commit all changes with descriptive mesSusa: `sprint-N: <summary>`
+3. Commit all changes with descriptive message: `sprint-N: <summary>`
 
 This is how context survives across chats. If skipped, the next chat starts blind and may overwrite or duplicate work. The repo is the shared memory — keep it accurate.
 

@@ -1,0 +1,37 @@
+name: ci-cd
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore src/RequirementsGrooming.Web/RequirementsGrooming.Web.csproj
+
+      - name: Build
+        run: dotnet build src/RequirementsGrooming.Web/RequirementsGrooming.Web.csproj --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test tests/RequirementsGrooming.Tests/RequirementsGrooming.Tests.csproj --configuration Release --no-build --verbosity normal
+
+      - name: Publish
+        run: dotnet publish src/RequirementsGrooming.Web/RequirementsGrooming.Web.csproj --configuration Release --output ./artifacts/webapp --no-build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapp-artifact
+          path: ./artifacts/webapp

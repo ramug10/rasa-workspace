@@ -1,0 +1,19 @@
+profile: data-app
+summary: Profile for data and analytics products with pipelines and quality checks.
+roles:
+  include:
+    - producer
+    - productDesigner
+    - backendEngineer
+    - qaEngineer
+    - devopsEngineer
+qualityGates:
+  requireDefinitionOfDone: true
+  requireRiskRegister: true
+  requireTestMatrix: true
+  requireRollbackPlan: true
+  requireQASignoffBeforeMerge: true
+sprintDefaults:
+  includeDataContractReview: true
+  includeDataQualityChecks: true
+  includePlaytest: false

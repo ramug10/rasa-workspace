@@ -34,6 +34,33 @@ Save as `docs/sprint-N/plan.md`:
 - Bug fixes
 - Final commit
 
+## Definition of Done
+
+- [ ] Planned scope implemented
+- [ ] Automated and manual checks complete
+- [ ] No blocker defects open
+- [ ] Required docs updated
+
+## Risk Register
+
+| Risk | Impact | Owner | Mitigation |
+|------|--------|-------|------------|
+| [risk] | [impact] | [owner] | [mitigation] |
+
+## Test Matrix
+
+| Scenario | Type | Expected Result | Status |
+|----------|------|-----------------|--------|
+| Happy path | Functional | [expected] | [ ] |
+| Error path | Negative | [expected] | [ ] |
+| Edge case | Boundary | [expected] | [ ] |
+
+## Rollback Strategy
+
+- Trigger: [what causes rollback]
+- Action: [rollback steps]
+- Owner: [role]
+
 ## Success Criteria
 
 - [ ] [Testable criterion 1]

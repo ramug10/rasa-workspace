@@ -5,144 +5,73 @@ description: 'Bootstrap and run a multi-agent AI development team. Use when: sta
 
 # AI Team Orchestration
 
-## When to Use
-- Starting a new project that needs planning, development, testing, and deployment
-- Setting up parallel AI agent teams (dev, QA, DevOps)
-- Writing brainstorm prompts that produce real debate (not generic output)
-- Creating sprint plans with cross-chat context survival
-- Recovering from context overflow mid-sprint
+## Version
 
-## Team Roles
+- `orchestrationVersion`: `1.0.0`
+- Contract source: `orchestration.config.yaml`
+- Contract schema: `schema/orchestration.config.schema.json`
 
-| Agent | Name | Role | Focus |
-|-------|------|------|-------|
-| Producer | **Remy** | Sprint planning, coordination, merging PRs | Scope control, handoffs, issue triage |
-| Product Designer | **Kira** | UX, mechanics, user experience | Fun factor, user flows, feature design |
-| Visual/Art Director | **Aasa** | CSS, animations, visual identity | Design system, polish, accessibility |
-| Frontend Engineer | **Raga** | UI framework, state management, components | React/Vue/Svelte, client-side logic |
-| Backend Engineer | **Susa** | API, database, auth, security | Server-side logic, infrastructure |
-| DevOps Engineer | **Dash** | CI/CD, cloud deployment, pipelines | GitHub Actions, Azure/AWS/GCP |
-| QA Engineer | **Ivy** | E2E tests, automation, playtesting | Playwright/Cypress, bug filing, sign-off |
+## Purpose
 
-Customize names and roles for your project. Not every project needs all roles.
+Use this skill to run a reusable, role-based delivery workflow across teams while keeping team-specific settings in configuration.
 
-## Chat Architecture
+## Required Inputs
 
-The human (CEO) is the messesage bus between parallel chats:
+Before running orchestration, ensure these exist:
 
-```
-┌────────────────────────────────────────┐
-│  @ai-team-producer — Plans, merges     │
-│  NEVER writes code                     │
-└────────────────┬───────────────────────┘
-                 │ Human carries mesSusas
-      ┌──────────┼──────────┐
-      ▼          ▼          ▼
-┌──────────┐ ┌────────┐ ┌────────┐
-│@ai-team  │ │@ai-team│ │DevOps  │
-│-dev      │ │-qa     │ │(on     │
-│          │ │        │ │demand) │
-│ Raga     │ │ Ivy    │ │        │
-│ Susa     │ │        │ │        │
-│ Aasa     │ │        │ │        │
-│          │ │feature/│ │feature/│
-│ feature/ │ │qa-N    │ │devops-N│
-│ sprint-N │ └────────┘ └────────┘
-└──────────┘
-```
+- `orchestration.config.yaml`
+- One active profile from `profiles/`
+- `PROJECT_BRIEF.md` generated from template
+- Sprint docs generated from templates
 
-Each team works in a **separate VS Code window** with its own clone:
-```bash
-git clone <repo> project-dev    # Dev team
-git clone <repo> project-qa     # QA
-git clone <repo> project-devops # DevOps (only when needed)
-```
+## Module Index
+
+- Core lifecycle: `references/modules/core-workflow.md`
+- Role boundaries: `references/modules/role-contracts.md`
+- Handoff rules: `references/modules/handoff-protocol.md`
+- Quality gates: `references/modules/quality-gates.md`
+- Brainstorm format: `references/brainstorm-format.md`
+- Sprint templates: `references/sprint-plan-template.md`
+- Anti-patterns: `references/anti-patterns.md`
 
 ## Project Bootstrap
 
-### 1. Create PROJECT_BRIEF.md
+### 1. Load Configuration
 
-The single source of truth across all chats. See the [project brief template](./references/project-brief-template.md).
+Read `orchestration.config.yaml` and apply values for:
 
-**Required sections (do not abbreviate):**
-1. Project Overview
-2. Concept / Product Description
-3. Tech Stack
-4. Architecture (ASCII diagram)
-5. Key Files Map
-6. Team Roles
-7. Sprint Status (updated every sprint)
-8. Current State (rewritten every sprint)
-9. Security Rules
-10. How to Run Locally
-11. How to Deploy
-12. **Cross-Chat Handoff Protocol** — how context survives between chats
-13. **Bug & Fix Tracking** — GitHub Issues as single source of truth
-14. **Multi-Repo Setup** — separate clones, branch strategy, merge rules
+- Role names
+- Branch prefixes
+- Labels
+- Quality gates
+- Sprint cadence
 
-### 2. Run a Brainstorm
+### 2. Initialize Artifacts
 
-See the [brainstorm format](./references/brainstorm-format.md). Key: name each agent explicitly with distinct personality and perspective. Require at least 2 genuine disagreements to prevent groupthink.
+Create project artifacts from templates:
 
-### 3. Create Sprint Plans
+- `templates/PROJECT_BRIEF.md`
+- `templates/docs/sprint-N/plan.md`
+- `templates/docs/sprint-N/progress.md`
+- `templates/docs/sprint-N/done.md`
+- `templates/docs/qa/sprint-N-signoff.md`
 
-See the [sprint plan template](./references/sprint-plan-template.md). Every sprint gets:
-- `docs/sprint-N/plan.md` — prioritized tasks, success criteria
-- `docs/sprint-N/progress.md` — live tracker, enables recovery
-- `docs/sprint-N/done.md` — handoff doc written at sprint end
+### 3. Plan and Execute
 
-### 4. Execute Sprints
+Run brainstorm, plan sprint, execute in role-specific chats, and enforce quality gates before merge.
 
-```
-Read PROJECT_BRIEF.md, then read docs/sprint-N/plan.md. Execute Sprint N.
+### 4. Validate Before Merge
 
-First: git pull origin main && git checkout -b feature/sprint-N
+Use `templates/validation-checklist.md` to verify governance completeness.
 
-Close GitHub Issues in commits: "fix: description (Fixes #NN)"
-Update docs/sprint-N/progress.md after each phase.
-When done, push and create PR: git push origin feature/sprint-N
-Follow Sections 12-14 of PROJECT_BRIEF.md.
-```
+## Core Principles
 
-### 5. QA Sign-off
+- Config-driven customization, not prompt rewrites
+- Strict role boundaries by file and action
+- Persistent handoff files as shared memory
+- Regular merge strategy only
+- QA verification required for blocker resolution
 
-After dev merges, QA does a full playthrough:
-```
-Read PROJECT_BRIEF.md. You are Ivy (QA).
-Sprint N is merged to main. Do full playthrough.
-File bugs as GitHub Issues. Write docs/qa/sprint-N-signoff.md.
-```
+## Notes
 
-## Context Recovery
-
-When a chat gets long (>100 mesSusas), save state and start fresh:
-
-**Before closing:**
-1. Update `docs/sprint-N/progress.md` with current status
-2. Update `PROJECT_BRIEF.md` sections 7+8
-3. Write `docs/sprint-N/done.md`
-
-**Cold start prompt:**
-```
-Read PROJECT_BRIEF.md and docs/sprint-N/progress.md.
-Continue from where it left off.
-```
-
-## Anti-Patterns
-
-See [anti-patterns reference](./references/anti-patterns.md) for the full list. Top 5:
-
-| Don't | Do Instead |
-|-------|------------|
-| Rebase feature branches | Merge (rebase loses commits) |
-| Producer writes code | Producer only plans, merges, files issues |
-| Batch "fix everything" commits | One commit per fix with issue reference |
-| Vague brainstorm prompts | Name each agent with distinct perspective |
-| Keep bugs only in chat | File GitHub Issues (chat context dies) |
-
-## Tips for Better Results
-
-- **"Take your time, do it right"** in prompts produces better output than rushing
-- **Test before merge** — you playtest, file issues, dev fixes, then merge
-- **Run team consiliums** before major sprints — each agent reviews the plan from their perspective
-- **Save lessons to memory** after every milestone
+Role names in examples are defaults and should be overridden in `orchestration.config.yaml`.

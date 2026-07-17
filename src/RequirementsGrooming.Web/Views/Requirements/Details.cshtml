@@ -1,0 +1,61 @@
+@model Requirement
+
+<h2>@Model.Title</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <p><strong>Project:</strong> @Model.ProjectName</p>
+        <p><strong>Priority:</strong> @Model.Priority</p>
+        <p><strong>Status:</strong> @Model.Status</p>
+        <p><strong>Business Goal:</strong> @Model.BusinessGoal</p>
+        <p><strong>Acceptance Criteria:</strong> @Model.AcceptanceCriteria</p>
+        @if (!string.IsNullOrWhiteSpace(Model.DecisionReason))
+        {
+            <p><strong>Decision Reason:</strong> @Model.DecisionReason</p>
+        }
+    </div>
+</div>
+
+<div class="d-flex flex-wrap gap-2 mb-3">
+    @if (Model.Status == RequirementsGrooming.Domain.Enums.RequirementStatus.Draft)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit Draft</a>
+
+        <form asp-action="SubmitForReview" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-warning">Submit For Review</button>
+        </form>
+    }
+
+    @if (Model.Status == RequirementsGrooming.Domain.Enums.RequirementStatus.InReview)
+    {
+        <form asp-action="MarkGroomed" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-info">Mark Groomed</button>
+        </form>
+    }
+</div>
+
+@if (Model.Status == RequirementsGrooming.Domain.Enums.RequirementStatus.Groomed)
+{
+    <div class="row g-3">
+        <div class="col-md-6">
+            <form asp-action="Approve" method="post" class="card p-3">
+                <input type="hidden" name="RequirementId" value="@Model.Id" />
+                <label class="form-label">Approval reason</label>
+                <textarea name="Reason" class="form-control" rows="3" required></textarea>
+                <button type="submit" class="btn btn-success mt-2">Approve</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form asp-action="Reject" method="post" class="card p-3">
+                <input type="hidden" name="RequirementId" value="@Model.Id" />
+                <label class="form-label">Rejection reason</label>
+                <textarea name="Reason" class="form-control" rows="3" required></textarea>
+                <button type="submit" class="btn btn-danger mt-2">Reject</button>
+            </form>
+        </div>
+    </div>
+}
+
+<a asp-action="Index" class="btn btn-outline-secondary mt-3">Back to List</a>
