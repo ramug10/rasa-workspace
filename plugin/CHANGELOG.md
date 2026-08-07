@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are documented in this file.
 
+## 1.2.1 - 2026-07-17
+
+- Added dedicated DevOps agent: `plugin/agents/ai-team-devops.agent.md`.
+- Updated `plugin/README.md` agent catalog to include DevOps execution role.
+
 ## 1.2.0 - 2026-07-17
 
 - Added three specialized agents in `plugin/agents/`:

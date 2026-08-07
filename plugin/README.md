@@ -24,6 +24,7 @@ Core team agents:
 - `plugin/agents/ai-team-workforce.agent.md` - sprint planning, coordination, triage, merge governance
 - `plugin/agents/ai-team-dev.agent.md` - implementation across frontend/backend/visual roles
 - `plugin/agents/ai-team-qa.agent.md` - testing, bug reporting, sprint sign-off
+- `plugin/agents/ai-team-devops.agent.md` - CI/CD, deployment safety, rollback, and operational reliability
 
 Specialized control agents:
 
