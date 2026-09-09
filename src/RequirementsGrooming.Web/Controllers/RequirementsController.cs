@@ -23,7 +23,7 @@ public class RequirementsController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "Stakeholder,ProductOwner")]
+    [Authorize(Roles = "Stakeholder,ProductOwner,DevLead")]
     public IActionResult Create()
     {
         return View(new CreateRequirementInputModel());
@@ -31,7 +31,7 @@ public class RequirementsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Stakeholder,ProductOwner")]
+    [Authorize(Roles = "Stakeholder,ProductOwner,DevLead")]
     public async Task<IActionResult> Create(CreateRequirementInputModel input, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
@@ -63,7 +63,7 @@ public class RequirementsController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "Stakeholder,ProductOwner")]
+    [Authorize(Roles = "Stakeholder,ProductOwner,DevLead")]
     public async Task<IActionResult> Edit(Guid id, CancellationToken cancellationToken)
     {
         var requirement = await _service.GetByIdAsync(id, cancellationToken);
@@ -86,7 +86,7 @@ public class RequirementsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Stakeholder,ProductOwner")]
+    [Authorize(Roles = "Stakeholder,ProductOwner,DevLead")]
     public async Task<IActionResult> Edit(Guid id, CreateRequirementInputModel input, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
@@ -107,7 +107,7 @@ public class RequirementsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Stakeholder,ProductOwner")]
+    [Authorize(Roles = "Stakeholder,ProductOwner,DevLead")]
     public async Task<IActionResult> SubmitForReview(Guid id, CancellationToken cancellationToken)
     {
         await _service.SubmitForReviewAsync(id, cancellationToken);

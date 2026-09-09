@@ -16,9 +16,8 @@ public class RequirementRepository : IRequirementRepository
 
     public async Task<IReadOnlyList<Requirement>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Requirements
-            .OrderByDescending(x => x.UpdatedAtUtc)
-            .ToListAsync(cancellationToken);
+        var requirements = await _dbContext.Requirements.ToListAsync(cancellationToken);
+        return requirements.OrderByDescending(x => x.UpdatedAtUtc).ToList();
     }
 
     public Task<Requirement?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
