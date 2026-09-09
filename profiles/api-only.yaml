@@ -1,0 +1,18 @@
+profile: api-only
+summary: Profile for backend and platform-focused services.
+roles:
+  include:
+    - producer
+    - backendEngineer
+    - qaEngineer
+    - devopsEngineer
+qualityGates:
+  requireDefinitionOfDone: true
+  requireRiskRegister: true
+  requireTestMatrix: true
+  requireRollbackPlan: true
+  requireQASignoffBeforeMerge: true
+sprintDefaults:
+  includeApiContractReview: true
+  includeLoadTestReview: true
+  includePlaytest: false

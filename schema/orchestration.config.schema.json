@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schema/orchestration.config.schema.json",
+  "title": "AI Team Orchestration Config",
+  "type": "object",
+  "required": [
+    "orchestrationVersion",
+    "profile",
+    "workflow",
+    "roles",
+    "qualityGates",
+    "paths"
+  ],
+  "properties": {
+    "orchestrationVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "profile": {
+      "type": "string",
+      "enum": ["web-app", "api-only", "data-app"]
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "sprintPrefix": { "type": "string", "default": "sprint" },
+        "defaultSprintLengthDays": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "workflow": {
+      "type": "object",
+      "required": ["branchPrefixes", "mergeStrategy", "contextRecoveryThresholdMessages"],
+      "properties": {
+        "branchPrefixes": {
+          "type": "object",
+          "required": ["dev", "qa", "devops"],
+          "properties": {
+            "dev": { "type": "string" },
+            "qa": { "type": "string" },
+            "devops": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "mergeStrategy": {
+          "type": "string",
+          "enum": ["merge"]
+        },
+        "contextRecoveryThresholdMessages": {
+          "type": "integer",
+          "minimum": 50
+        }
+      },
+      "additionalProperties": false
+    },
+    "roles": {
+      "type": "object",
+      "required": [
+        "producer",
+        "productDesigner",
+        "visualDirector",
+        "frontendEngineer",
+        "backendEngineer",
+        "qaEngineer",
+        "devopsEngineer"
+      ],
+      "properties": {
+        "producer": {
+          "type": "object",
+          "required": ["name", "canExecuteCommands"],
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "canExecuteCommands": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        },
+        "productDesigner": {
+          "type": "object",
+          "required": ["name"],
+          "properties": { "name": { "type": "string", "minLength": 1 } },
+          "additionalProperties": false
+        },
+        "visualDirector": {
+          "type": "object",
+          "required": ["name"],
+          "properties": { "name": { "type": "string", "minLength": 1 } },
+          "additionalProperties": false
+        },
+        "frontendEngineer": {
+          "type": "object",
+          "required": ["name"],
+          "properties": { "name": { "type": "string", "minLength": 1 } },
+          "additionalProperties": false
+        },
+        "backendEngineer": {
+          "type": "object",
+          "required": ["name"],
+          "properties": { "name": { "type": "string", "minLength": 1 } },
+          "additionalProperties": false
+        },
+        "qaEngineer": {
+          "type": "object",
+          "required": ["name"],
+          "properties": { "name": { "type": "string", "minLength": 1 } },
+          "additionalProperties": false
+        },
+        "devopsEngineer": {
+          "type": "object",
+          "required": ["name"],
+          "properties": { "name": { "type": "string", "minLength": 1 } },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "qualityGates": {
+      "type": "object",
+      "required": [
+        "requireDefinitionOfDone",
+        "requireRiskRegister",
+        "requireTestMatrix",
+        "requireRollbackPlan",
+        "requireQASignoffBeforeMerge"
+      ],
+      "properties": {
+        "requireDefinitionOfDone": { "type": "boolean" },
+        "requireRiskRegister": { "type": "boolean" },
+        "requireTestMatrix": { "type": "boolean" },
+        "requireRollbackPlan": { "type": "boolean" },
+        "requireQASignoffBeforeMerge": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "issueLabels": {
+      "type": "object",
+      "properties": {
+        "bug": { "type": "string" },
+        "infra": { "type": "string" },
+        "severity": {
+          "type": "object",
+          "properties": {
+            "blocker": { "type": "string" },
+            "major": { "type": "string" },
+            "minor": { "type": "string" }
+          },
+          "required": ["blocker", "major", "minor"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "paths": {
+      "type": "object",
+      "required": ["projectBrief", "sprintDocs", "qaSignoff", "brainstorming"],
+      "properties": {
+        "projectBrief": { "type": "string", "minLength": 1 },
+        "sprintDocs": { "type": "string", "minLength": 1 },
+        "qaSignoff": { "type": "string", "minLength": 1 },
+        "brainstorming": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

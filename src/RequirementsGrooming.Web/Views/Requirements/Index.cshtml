@@ -1,0 +1,62 @@
+@model IReadOnlyList<Requirement>
+
+@{
+    var draft = Model.Count(x => x.Status == RequirementsGrooming.Domain.Enums.RequirementStatus.Draft);
+    var inReview = Model.Count(x => x.Status == RequirementsGrooming.Domain.Enums.RequirementStatus.InReview);
+    var groomed = Model.Count(x => x.Status == RequirementsGrooming.Domain.Enums.RequirementStatus.Groomed);
+    var approved = Model.Count(x => x.Status == RequirementsGrooming.Domain.Enums.RequirementStatus.Approved);
+    var rejected = Model.Count(x => x.Status == RequirementsGrooming.Domain.Enums.RequirementStatus.Rejected);
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Requirements</h2>
+    <div class="d-flex gap-2">
+        <a asp-action="BacklogExport" class="btn btn-outline-success">Export Approved Backlog</a>
+        <a asp-action="Create" class="btn btn-primary">Create Requirement</a>
+    </div>
+</div>
+
+<div class="row g-2 mb-3">
+    <div class="col-md"><div class="card p-2 text-center"><small>Draft</small><strong>@draft</strong></div></div>
+    <div class="col-md"><div class="card p-2 text-center"><small>In Review</small><strong>@inReview</strong></div></div>
+    <div class="col-md"><div class="card p-2 text-center"><small>Groomed</small><strong>@groomed</strong></div></div>
+    <div class="col-md"><div class="card p-2 text-center"><small>Approved</small><strong>@approved</strong></div></div>
+    <div class="col-md"><div class="card p-2 text-center"><small>Rejected</small><strong>@rejected</strong></div></div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No requirements yet. Create the first one.</div>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Project</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Updated</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.ProjectName</td>
+                <td>@item.Priority</td>
+                <td>
+                    <span class="badge @(item.Status == RequirementsGrooming.Domain.Enums.RequirementStatus.Approved ? "text-bg-success" : item.Status == RequirementsGrooming.Domain.Enums.RequirementStatus.Rejected ? "text-bg-danger" : "text-bg-secondary")">
+                        @item.Status
+                    </span>
+                </td>
+                <td>@item.UpdatedAtUtc.UtcDateTime.ToString("u")</td>
+                <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Details</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

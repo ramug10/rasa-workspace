@@ -1,0 +1,47 @@
+orchestrationVersion: 1.0.0
+profile: web-app
+project:
+  name: "Your Project"
+  sprintPrefix: sprint
+  defaultSprintLengthDays: 14
+workflow:
+  branchPrefixes:
+    dev: feature
+    qa: feature/qa
+    devops: feature/devops
+  mergeStrategy: merge
+  contextRecoveryThresholdMessages: 100
+roles:
+  producer:
+    name: Remy
+    canExecuteCommands: false
+  productDesigner:
+    name: Kira
+  visualDirector:
+    name: Aasa
+  frontendEngineer:
+    name: Raga
+  backendEngineer:
+    name: Susa
+  qaEngineer:
+    name: Ivy
+  devopsEngineer:
+    name: Dash
+qualityGates:
+  requireDefinitionOfDone: true
+  requireRiskRegister: true
+  requireTestMatrix: true
+  requireRollbackPlan: true
+  requireQASignoffBeforeMerge: true
+issueLabels:
+  bug: bug
+  infra: infra
+  severity:
+    blocker: severity:blocker
+    major: severity:major
+    minor: severity:minor
+paths:
+  projectBrief: PROJECT_BRIEF.md
+  sprintDocs: docs/sprint-N
+  qaSignoff: docs/qa/sprint-N-signoff.md
+  brainstorming: docs/brainstorm

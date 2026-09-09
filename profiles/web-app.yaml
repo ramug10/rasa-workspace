@@ -1,0 +1,21 @@
+profile: web-app
+summary: Standard profile for full-stack web products.
+roles:
+  include:
+    - producer
+    - productDesigner
+    - visualDirector
+    - frontendEngineer
+    - backendEngineer
+    - qaEngineer
+    - devopsEngineer
+qualityGates:
+  requireDefinitionOfDone: true
+  requireRiskRegister: true
+  requireTestMatrix: true
+  requireRollbackPlan: true
+  requireQASignoffBeforeMerge: true
+sprintDefaults:
+  includeUIReview: true
+  includeApiContractReview: true
+  includePlaytest: true
